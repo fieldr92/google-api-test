@@ -66,7 +66,7 @@ app.get('/spreadsheet', (req, res) => {
   }
 
   const listInHTMLTable = (auth, callback) => {
-    console.log('Getting rows...');
+    console.log('Getting info from Google Sheet...');
     const sheets = google.sheets({version: 'v4', auth});
     sheets.spreadsheets.values.get({
       spreadsheetId: sheetID,
