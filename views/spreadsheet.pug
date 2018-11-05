@@ -4,6 +4,7 @@ html
     style
       include style.css
   body
+    h1= 'GAPI Table Generated below...'
     table.table-style
       each row, i in rows
         if i === 0
@@ -16,4 +17,3 @@ html
             tr
               each cell in row
                 td= cell
-              

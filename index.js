@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/spreadsheet', (req, res) => {
-
   // If modifying these scopes, delete token.json.
   const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
   const TOKEN_PATH = 'token.json';
@@ -28,7 +27,7 @@ app.get('/spreadsheet', (req, res) => {
   fs.readFile('credentials.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     authorize(JSON.parse(content), listInHTMLTable);
-  })
+  });
 
   const authorize = (credentials, callback) => {
     const { client_secret, client_id, redirect_uris } = credentials.installed;  
@@ -37,7 +36,7 @@ app.get('/spreadsheet', (req, res) => {
     fs.readFile(TOKEN_PATH, (err, token) => {
       if (err) return getNewToken(oAuth2Client, callback);
       oAuth2Client.setCredentials(JSON.parse(token));
-      callback(oAuth2Client);
+      callback(oAuth2Client, renderTable);
     });
   }
 
@@ -66,9 +65,8 @@ app.get('/spreadsheet', (req, res) => {
     });
   }
 
-  let spreadsheetRows;
-
-  const listInHTMLTable = auth => {
+  const listInHTMLTable = (auth, callback) => {
+    console.log('Getting rows...');
     const sheets = google.sheets({version: 'v4', auth});
     sheets.spreadsheets.values.get({
       spreadsheetId: sheetID,
@@ -77,19 +75,17 @@ app.get('/spreadsheet', (req, res) => {
       if (err) return console.log('The API returned an error: ' + err);
       const rows = res.data.values;
       if (rows.length) {
-        console.log('Success... Created HTML.');
-        return spreadsheetRows = rows;
+        callback(rows);
       }
     });
   }
 
-  setTimeout(() => {
-    if (spreadsheetRows.length) {
-      res.render('spreadsheet', {
-        rows: spreadsheetRows
-      });
-    }
-  }, 2000)
+  function renderTable(rows) {
+    console.log('Success! Table created.');
+    res.render('spreadsheet', {
+      rows: rows
+    });
+  }
 
 });
 
