@@ -1,9 +1,5 @@
-const fs = require('fs');
-const readline = require('readline');
-const { google } = require('googleapis');
 const express = require('express');
 const path = require('path');
-const pug = require('pug');
 const ejs = require('ejs');
 const home = require('./routes/home');
 const spreadsheet = require('./routes/spreadsheet');
