@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./style.css">
+  <title>GAPI Sheet</title>
+</head>
+<body>
+  <h2>
+    <%= head %>
+  </h2>
+  <table class="table-style">
+    <% rows.forEach((row, i) => { %>
+      <% if (i === 0) { %>
+        <thead>
+          <tr>
+              <% row.forEach(cell => { %>
+                <th>
+                  <%= cell %>
+                </th>
+              <% }) %>
+            </tr>
+        </thead>
+      <% } %>
+      <% if (i > 0) { %>
+        <tbody>
+          <tr>
+            <% row.forEach(cell => { %>
+              <td>
+                <%= cell %>
+              </td>
+            <% }) %>
+          </tr>
+        </tbody>
+      <% } %>
+    <% }) %>
+  </table>
+</body>
+</html>

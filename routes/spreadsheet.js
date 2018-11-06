@@ -72,6 +72,7 @@ router.get('/', (req, res) => {
   function renderTable(rows) {
     console.log('Success! Table created.');
     res.render('spreadsheet', {
+      head: 'GAPI Generated Spreadsheet Below...',
       rows: rows
     });
   }
